@@ -1,0 +1,3 @@
+en: Hello
+fr: Salut
+es: ¡Hola

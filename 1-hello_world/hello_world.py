@@ -54,7 +54,7 @@ def print_greeting():
     emoji_supported = True
 
     if encoding in EMOJI_ENCODINGS:
-        greeting_final = GREETING_SECOND + GREETING_PUNCTUATION
+        greeting_final = GREETING_SECOND_EMOJI + GREETING_PUNCTUATION
     else:
         emoji_supported = False
         greeting_final = DEFAULT_GREETING_SECOND + GREETING_PUNCTUATION

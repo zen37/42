@@ -39,12 +39,12 @@ PATH = config["path"]
 LOCATION = config["location"]
 KEY = config["key"]
 
-def get_translation(text):
+def get_translation(text, language):
 
     params = {
         'api-version': '3.0',
         'from': 'en',
-        'to': ['zu']
+        'to': [language]
     }
 
     headers = {

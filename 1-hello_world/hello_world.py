@@ -1,5 +1,8 @@
 import locale
+
 from constants import *
+from translator import *
+
 
 def read_greetings_file(file_name):
     """Read greetings from a file."""
@@ -42,7 +45,7 @@ def print_greeting():
 
     # Uncomment the lines below if you want to set the locale to other language for testing
     #set_locale('es_ES', 'UTF-8')
-    #set_locale('zh_CN', 'UTF-8')
+    set_locale('zh_CN', 'UTF-8')
     #set_locale('ja_JP', 'UTF-8')
     #set_locale('ja_JP', 'SJIS')
 
@@ -69,8 +72,13 @@ def print_greeting():
             print(result + SEP + greeting_final)
         else:
             if emoji_supported:
-                print(f"No greeting found for the locale language '{language_code}'; using default English")
-                print(DEFAULT_GREETING_FIRST + SEP + greeting_final)
+                print(f"No greeting found for the locale language '{language_code}'; going to retrieve the translation")
+                greeting = get_translation(DEFAULT_GREETING_FIRST, language_code)
+                if greeting.strip():
+                    print(greeting + SEP + greeting_final)
+                else:
+                    print(f"Translation could not be retrieved for the locale language '{language_code}'; using default English")
+                    print(DEFAULT_GREETING_FIRST + SEP + greeting_final)
             else:
                 print(f"No greeting found for the locale language '{language_code}' and encoding '{encoding}'; using default English")
                 print(DEFAULT_GREETING_FIRST + SEP + greeting_final)

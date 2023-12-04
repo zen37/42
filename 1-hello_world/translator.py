@@ -39,6 +39,7 @@ PATH = config["path"]
 LOCATION = config["location"]
 KEY = config["key"]
 
+
 def get_translation(text, language):
 
     params = {
@@ -47,12 +48,17 @@ def get_translation(text, language):
         'to': [language]
     }
 
+    #had to remove the dashes, getting a 400 bad request if adding the prefix
+    #w/o prefix worked with dashes too
+    uuid_without_dashes = str(uuid.uuid4()).replace('-', '')
+    trace_id = f'{PREFIX_TRACE_ID}|{uuid_without_dashes}' 
+    #trace_id = f'{str(uuid.uuid4())}'
+    #print(trace_id)
     headers = {
         'Ocp-Apim-Subscription-Key': KEY,
-        # location required if you're using a multi-service or regional (not global) resource.
         'Ocp-Apim-Subscription-Region': LOCATION,
         'Content-type': 'application/json',
-        'X-ClientTraceId': f'{PREFIX_TRACE_ID}-{str(uuid.uuid4())}'
+        'X-ClientTraceId': trace_id
     }
 
     body = [{

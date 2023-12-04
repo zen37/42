@@ -45,7 +45,9 @@ def print_greeting():
 
     # Uncomment the lines below if you want to set the locale to other language for testing
     #set_locale('es_ES', 'UTF-8')
-    set_locale('zh_CN', 'UTF-8')
+    #set_locale('zh_CN', 'UTF-8')
+    #set_locale('de_DE', 'UTF-8')
+    set_locale('no_NO', 'UTF-8') #da_DK
     #set_locale('ja_JP', 'UTF-8')
     #set_locale('ja_JP', 'SJIS')
 
@@ -68,12 +70,13 @@ def print_greeting():
     if lines:
         result = find_greeting(lines, language_code)
         if result:
-            if not emoji_supported: print(f"Locale encoding '{encoding}' not found; using default English instead of emoji")
-            print(result + SEP + greeting_final)
+            if not emoji_supported:
+                print(f"Locale encoding '{encoding}' not found; using default English instead of emoji")
+                print(result + SEP + greeting_final)
         else:
             if emoji_supported:
                 print(f"No greeting found for the locale language '{language_code}'; going to retrieve the translation")
-                greeting = get_translation(DEFAULT_GREETING_FIRST, language_code)
+                greeting = get_translation(DEFAULT_GREETING_FIRST, language_code[:2])
                 if greeting.strip():
                     print(greeting + SEP + greeting_final)
                 else:

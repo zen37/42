@@ -41,6 +41,16 @@ KEY = config["key"]
 
 
 def get_translation(text, language):
+    """
+        Translate the given text from English to the specified language.
+
+        Parameters:
+        - text (str): The text to be translated.
+        - language (str): The target language for translation.
+
+        Returns:
+        - str: The translated text.
+    """
 
     params = {
         'api-version': '3.0',
@@ -50,10 +60,10 @@ def get_translation(text, language):
 
     #had to remove the dashes, getting a 400 bad request if adding the prefix
     #w/o prefix worked with dashes too
-    uuid_without_dashes = str(uuid.uuid4()).replace('-', '')
-    trace_id = f'{PREFIX_TRACE_ID}|{uuid_without_dashes}' 
+    #uuid_without_dashes = str(uuid.uuid4()).replace('-', '')
+    #trace_id = f'{PREFIX_TRACE_ID}|{uuid_without_dashes}'
     #trace_id = f'{str(uuid.uuid4())}'
-    #print(trace_id)
+    print(trace_id)
     headers = {
         'Ocp-Apim-Subscription-Key': KEY,
         'Ocp-Apim-Subscription-Region': LOCATION,

@@ -59,16 +59,10 @@ def save_greeting(language_code, greeting_text):
 
 
 
-def print_greeting():
+def print_greeting(set_lang):
 
-    # Uncomment the lines below if you want to set the locale to other language for testing
-    #set_locale('es_ES', 'UTF-8')
-    #set_locale('zh_CN', 'UTF-8')
-    #set_locale('de_DE', 'UTF-8')
-    #set_locale('no_NO', 'UTF-8') #da_DK
-    #set_locale('sv_SE', 'UTF-8')
-    #set_locale('ja_JP', 'UTF-8')
-    #set_locale('ja_JP', 'SJIS')
+    if set_lang:
+        set_locale(set_lang, 'UTF-8')
 
     current_locale = locale.getlocale()
     print("Current Locale:", current_locale)

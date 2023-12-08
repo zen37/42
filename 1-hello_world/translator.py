@@ -62,8 +62,8 @@ def get_translation(text, language):
     #w/o prefix worked with dashes too
     #uuid_without_dashes = str(uuid.uuid4()).replace('-', '')
     #trace_id = f'{PREFIX_TRACE_ID}|{uuid_without_dashes}'
-    #trace_id = f'{str(uuid.uuid4())}'
-    print(trace_id)
+    trace_id = f'{str(uuid.uuid4())}'
+    #print(trace_id)
     headers = {
         'Ocp-Apim-Subscription-Key': KEY,
         'Ocp-Apim-Subscription-Region': LOCATION,

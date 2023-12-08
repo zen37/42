@@ -2,3 +2,4 @@ en:Hello
 fr:Bonjour
 es:¡Hola
 ja:ハロー
+sv:Hej

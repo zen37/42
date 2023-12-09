@@ -3,25 +3,17 @@ import locale
 from constants import *
 from translator import *
 
-def set_locale(language, encoding):
-    """Set the locale."""
-    try:
-        locale.setlocale(locale.LC_ALL, f'{language}.{encoding}')
-    except Exception as e:
-        print(f"Error setting the locale: {e}")
-        return None
 
 def read_greetings_file(file_name):
     """Read greetings from a file."""
     try:
-        with open(file_name, 'r') as file:
-            return file.readlines()
+        with open(file_name, 'r', encoding=ENCODING) as file_greeting:
+            return file_greeting.readlines()
     except FileNotFoundError:
         print(f"file '{file_name}' does not exist.")
         return None
-    except Exception as e:
-        print(f"Error occurred while reading the file: {e}")
-        return None
+    except OSError as e:
+        print(f"Error: {e}")
 
 
 def find_greeting(lines, language_code):
@@ -39,33 +31,23 @@ def find_greeting(lines, language_code):
     if not language_found:
         return None
 
+
 def save_greeting(language_code, greeting_text):
+    """Save greetings in a local file."""
     try:
         data_to_save = f"{language_code}:{greeting_text}"
 
-        # Check if the file is not empty
-        with open(FILE_NAME_GREETINGS, 'r') as file:
-            content = file.read()
-            if content:
-                data_to_save = "\n" + data_to_save
+        with open(FILE_NAME_GREETINGS, 'a', encoding=ENCODING) as file_greeting:
+            file_greeting.write("\n")
+            file_greeting.write(data_to_save)
 
-        # Save the data to the file (append mode)
-        with open(FILE_NAME_GREETINGS, 'a') as file:
-            file.write(data_to_save + "\n")
-
-        print(f"data appended to {FILE_NAME_GREETINGS}")
-    except Exception as e:
+        print(f"Data appended to {FILE_NAME_GREETINGS}")
+    except OSError as e:
         print(f"Error: {e}")
 
 
+def print_greeting(current_locale):
 
-def print_greeting(set_lang):
-
-    if set_lang:
-        set_locale(set_lang, 'UTF-8')
-
-    current_locale = locale.getlocale()
-    print("Current Locale:", current_locale)
     language_code = current_locale[0]
     encoding = current_locale[1]
 

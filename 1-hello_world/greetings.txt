@@ -1,5 +1,6 @@
-en:Hello
-fr:Bonjour
-es:¡Hola
-ja:ハロー
-sv:Hej
+en:Hello World
+fr:Bonjour le monde
+es:¡Hola mundo
+ja:こんにちは、世界
+it:Ciao mondo
+de:Hallo Welt

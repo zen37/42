@@ -16,8 +16,10 @@ def read_greetings_file(file_name):
         print(f"Error: {e}")
 
 
-def find_greeting(lines, language_code):
+def get_greeting(language_code):
     """Find the matching greeting based on language code."""
+
+    lines = read_greetings_file(FILE_NAME_GREETINGS)
 
     language_found = False
 
@@ -29,6 +31,7 @@ def find_greeting(lines, language_code):
             continue
 
     if not language_found:
+        print("not found")
         return None
 
 
@@ -57,18 +60,14 @@ def print_greeting(current_locale):
         greeting_final = GREETING_SECOND_EMOJI + GREETING_PUNCTUATION
     else:
         emoji_supported = False
-        print(f"locale encoding '{encoding}' not found; using default English instead of emoji")
-        greeting_final = DEFAULT_GREETING_SECOND + GREETING_PUNCTUATION
+        print(f"locale encoding '{encoding}' not found; not using emoji")
+        greeting_final = GREETING_PUNCTUATION
 
-    lines = read_greetings_file(FILE_NAME_GREETINGS)
-
-    if lines:
-        result = find_greeting(lines, language_code)
-        # print("result:", result)
-        if result:
-            print(result + SEP + greeting_final)
-        else:
-            if emoji_supported:
+    result = get_greeting(language_code)
+    if result:
+        print(result + SEP + greeting_final)
+    else:
+        if emoji_supported:
                 print(f"no greeting found for the locale language '{language_code}'; going to retrieve the translation")
                 lang = language_code[:2]
                 greeting = get_translation(DEFAULT_GREETING_FIRST, lang)
@@ -79,8 +78,6 @@ def print_greeting(current_locale):
                 else:
                     print(f"translation could not be retrieved for the locale language '{language_code}'; using default English")
                     print(DEFAULT_GREETING_FIRST + SEP + greeting_final)
-            else:
-                print(f"no greeting found for the locale language '{language_code}' and encoding '{encoding}'; using default English")
-                print(DEFAULT_GREETING_FIRST + SEP + greeting_final)
-    else:
-        print("Error reading the greetings file.")
+        else:
+            print(f"no greeting found for the locale language '{language_code}' and encoding '{encoding}'; using default English")
+            print(DEFAULT_GREETING_FIRST + SEP + greeting_final)

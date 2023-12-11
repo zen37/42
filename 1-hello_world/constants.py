@@ -7,7 +7,7 @@ SEP =  ' '
 
 GREETING = DEFAULT_GREETING_FIRST  + SEP + DEFAULT_GREETING_SECOND
 
-GREETING_SECOND_EMOJI = '🌍'
+WORLD_EMOJI = '🌍'
 GREETING_PUNCTUATION = '!'
 
 
@@ -18,3 +18,6 @@ ENCODING = 'UTF-8'
 PREFIX_TRACE_ID =  'HelloWorld'
 
 TIMEOUT_SECONDS = 10 #for calling translator resource
+
+DEFAULT_VOICE = 'en-US-JennyNeural'
+DIRECTORY_AUDIO ='audio'

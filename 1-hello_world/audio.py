@@ -1,18 +1,23 @@
+"""
 import os
-import sys
+provides functionality related to the operating system,
+including file and directory operations using the os module
+
+import pygame
+https://stackoverflow.com/questions/51464455/how-to-disable-welcome-message-when-importing-pygame
+"""
+
+import os
 import json
 import random
 import azure.cognitiveservices.speech as speechsdk
-# https://stackoverflow.com/questions/51464455/how-to-disable-welcome-message-when-importing-pygame
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 
-from constants import DEFAULT_VOICE, DIRECTORY_AUDIO
+from constants import DEFAULT_VOICE, DIRECTORY_AUDIO, ENCODING
 
 
-from constants import FILE_AUDIO_EXTENSION
-
-with open("config.json", "r", encoding='utf-8') as file:
+with open("config.json", "r", encoding = ENCODING) as file:
     config = json.load(file)
 
 REGION = config["region"]
@@ -34,6 +39,7 @@ def get_available_voices():
         print(f"Speech synthesis canceled; error details: {result.error_details}")
         return None
 
+
 def get_voice(language_code):
     """gets random voice for provided language, in case multiple voices are retrieved"""
     voice_names = []
@@ -53,8 +59,7 @@ def get_voice(language_code):
 def get_filepath(voice):
     """gets path to audio file"""
 
-    #filename = language_code + '.' + FILE_AUDIO_EXTENSION
-    filename = voice + '.' + FILE_AUDIO_EXTENSION
+    filename = voice
     filepath = os.path.join(DIRECTORY_AUDIO, filename)
 
     return filepath
@@ -75,23 +80,44 @@ def play(filepath):
     pygame.quit()
 
 
+def get_audio_file(language_code):
+    """gets local audio file based on the provided language"""
+ # Check if the directory exists
+    if not os.path.exists(DIRECTORY_AUDIO):
+        os.makedirs(DIRECTORY_AUDIO)
+        return None  # just created the directory, obviously there is no file
+    else:
+        # Get all files that start with language_code
+        files = [f for f in os.listdir(DIRECTORY_AUDIO) if f.startswith(language_code)]
+
+        print(f"audio files (voices) found locally: {len(files)}")
+
+        for file in files:
+            print(file)
+
+        # Return a random file from the list
+        if files:
+            random_file = random.choice(files)
+            print("randomly chosen voice: ", random_file)
+            return random_file
+        else:
+            return None
+
+
 def talk(language_locale, text):
     """speaks the text in the provided language"""
 
     language_code = language_locale[:2]
 
-    voice = get_voice(language_code)
-    print("random voice:", voice)
+    voice = get_audio_file(language_code)
 
-    # Check if the directory exists
-    if not os.path.exists(DIRECTORY_AUDIO):
-        os.makedirs(DIRECTORY_AUDIO)
-
-    filepath = get_filepath(voice)
-
-    if os.path.isfile(filepath):
-         play(filepath)
+    if voice:
+        filepath = get_filepath(voice)
+        play(filepath)
     else:
+        voice = get_voice(language_code)
+
+        filepath = get_filepath(voice)
 
         audio_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=True, filename = filepath)
 

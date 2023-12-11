@@ -1,24 +1,20 @@
 import sys
 import locale
 
-from text import print_greeting
-from speech import talk
+from helpers import set_locale
+from text import get_greeting, print_greeting
+from audio import talk
 
 
-def set_locale(language, encoding):
-    """Set the locale."""
+def main():
     try:
-        locale.setlocale(locale.LC_ALL, f'{language}.{encoding}')
-    except Exception as e:
-        print(f"Error setting the locale: {e}")
-        return None
+        current_locale = locale.getlocale()
+        language_code = current_locale[0]
 
-def main(current_locale):
-    try:
-        print_greeting(current_locale)
-        #print("Enter some text that you want to speak >")
-        #text = input()
-        talk("hello world")
+        greeting = get_greeting(current_locale)
+        print_greeting(greeting)
+
+        talk(language_code, greeting)
     except Exception as e:
         print(f"An error occurred: {e}")
 
@@ -28,7 +24,5 @@ if __name__ == "__main__":
         print("argument: ", lang)
         set_locale(lang, 'UTF-8')
 
-    current_locale = locale.getlocale()
-    print("current locale:", current_locale)
-
-    main(current_locale)
+    print("current locale:", locale.getlocale())
+    main()

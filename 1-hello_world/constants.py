@@ -18,5 +18,5 @@ PREFIX_TRACE_ID =  'HelloWorld'
 
 TIMEOUT_SECONDS = 10 #for calling translator resource
 
-DEFAULT_VOICE = 'en-US-JennyNeural'
+DEFAULT_VOICE = 'en-US-JennyMultilingualNeural.wav'
 DIRECTORY_AUDIO ='audio'

@@ -4,3 +4,6 @@ es:¡Hola mundo
 ja:こんにちは、世界
 it:Ciao mondo
 de:Hallo Welt
+pt:Olá, mundo
+no:Hallo verden
+da:Hej verden

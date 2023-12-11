@@ -36,8 +36,8 @@ with open("config.json", "r", encoding='utf-8') as file:
 
 ENDPOINT = config["endpoint"]
 PATH = config["path"]
-LOCATION = config["location"]
-KEY = config["key"]
+REGION = config["region"]
+KEY = config["key_translator"]
 
 
 def get_translation(text, language):
@@ -66,7 +66,7 @@ def get_translation(text, language):
     #print(trace_id)
     headers = {
         'Ocp-Apim-Subscription-Key': KEY,
-        'Ocp-Apim-Subscription-Region': LOCATION,
+        'Ocp-Apim-Subscription-Region': REGION,
         'Content-type': 'application/json',
         'X-ClientTraceId': trace_id
     }

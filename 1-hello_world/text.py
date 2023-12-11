@@ -1,13 +1,23 @@
 import locale
+import threading
 
-from constants import *
-from translator import *
+from constants import (
+    ENCODING,
+    FILE_NAME_GREETINGS,
+    DEFAULT_GREETING_FIRST,
+    SEP,
+    DEFAULT_GREETING_SECOND,
+    EMOJI_ENCODINGS,
+    WORLD_EMOJI,
+    GREETING_PUNCTUATION
+)
+from translator import get_translation
 
 
 def read_greetings_file(file_name):
     """Read greetings from a file."""
     try:
-        with open(file_name, 'r', encoding=ENCODING) as file_greeting:
+        with open(file_name, 'r', encoding = ENCODING ) as file_greeting:
             return file_greeting.readlines()
     except FileNotFoundError:
         print(f"file '{file_name}' does not exist.")
@@ -16,8 +26,11 @@ def read_greetings_file(file_name):
         print(f"Error: {e}")
 
 
-def get_greeting(language_code):
+def get_greeting(current_locale):
     """Find the matching greeting based on language code."""
+    #thread_id = threading.current_thread().ident
+    #print(f"Function get_greeting executed on thread with ID: {thread_id}")
+    language_code = current_locale[0]
 
     lines = read_greetings_file(FILE_NAME_GREETINGS)
 
@@ -31,12 +44,29 @@ def get_greeting(language_code):
             continue
 
     if not language_found:
-        print("not found")
-        return None
+        print(f"no greeting found for the locale language '{language_code}'; retrieving the translation")
+        lang = language_code[:2]
+        greeting = get_translation(DEFAULT_GREETING_FIRST + SEP + DEFAULT_GREETING_SECOND , lang)
+        if greeting.strip():
+            #save retrieved translation in the local file
+            save_greeting_background(lang, greeting)
+            return greeting
+        else:
+            print(f"translation could not be retrieved for the locale language '{language_code}'; using default English")
+            return (DEFAULT_GREETING_FIRST + SEP + DEFAULT_GREETING_SECOND)
+
+
+def save_greeting_background(language_code, greeting_text):
+    """call save_greeting function in a separate thread allowing the program to continue its execution
+    without waiting for the file-writing operation to complete."""
+    thread = threading.Thread(target=save_greeting, args=(language_code, greeting_text))
+    thread.start()
 
 
 def save_greeting(language_code, greeting_text):
     """Save greetings in a local file."""
+    #thread_id = threading.current_thread().ident
+    #print(f"Function save_greeting executed on thread with ID: {thread_id}")
     try:
         data_to_save = f"{language_code}:{greeting_text}"
 
@@ -49,35 +79,16 @@ def save_greeting(language_code, greeting_text):
         print(f"Error: {e}")
 
 
-def print_greeting(current_locale):
+def get_end_greeting():
 
-    language_code = current_locale[0]
+    current_locale = locale.getlocale()
     encoding = current_locale[1]
 
-    emoji_supported = True
-
     if encoding in EMOJI_ENCODINGS:
-        greeting_final = GREETING_SECOND_EMOJI + GREETING_PUNCTUATION
+        return WORLD_EMOJI + GREETING_PUNCTUATION
     else:
-        emoji_supported = False
-        print(f"locale encoding '{encoding}' not found; not using emoji")
-        greeting_final = GREETING_PUNCTUATION
+        return GREETING_PUNCTUATION
 
-    result = get_greeting(language_code)
-    if result:
-        print(result + SEP + greeting_final)
-    else:
-        if emoji_supported:
-                print(f"no greeting found for the locale language '{language_code}'; going to retrieve the translation")
-                lang = language_code[:2]
-                greeting = get_translation(DEFAULT_GREETING_FIRST, lang)
-                if greeting.strip():
-                    print(greeting + SEP + greeting_final)
-                    #save retrieved translation in the local file
-                    save_greeting(lang, greeting)
-                else:
-                    print(f"translation could not be retrieved for the locale language '{language_code}'; using default English")
-                    print(DEFAULT_GREETING_FIRST + SEP + greeting_final)
-        else:
-            print(f"no greeting found for the locale language '{language_code}' and encoding '{encoding}'; using default English")
-            print(DEFAULT_GREETING_FIRST + SEP + greeting_final)
+
+def print_greeting(text):
+    print(text + get_end_greeting())

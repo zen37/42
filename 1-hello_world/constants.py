@@ -1,4 +1,8 @@
+DIR_CONFIG = "config"
+FILE_COMMON_CONFIG = "_config.json"
+FILE_AZURE_CONFIG = "azure.json"
 FILE_NAME_GREETINGS = 'greetings.txt'
+
 
 DEFAULT_GREETING_FIRST = 'Hello'
 DEFAULT_GREETING_SECOND = 'World'

@@ -1,6 +1,9 @@
+import os
 import locale
+import json
 import threading
 
+from helpers import get_config
 from constants import (
     ENCODING,
     FILE_NAME_GREETINGS,
@@ -11,8 +14,10 @@ from constants import (
     WORLD_EMOJI,
     GREETING_PUNCTUATION
 )
-from translator import get_translation
+from translator.translator_factory import get_translator_instance
 
+config = get_config()
+translator = get_translator_instance(config)
 
 def read_greetings_file(file_name):
     """Read greetings from a file."""
@@ -46,7 +51,7 @@ def get_greeting(current_locale):
     if not language_found:
         print(f"no greeting found for the locale language '{language_code}'; retrieving the translation")
         lang = language_code[:2]
-        greeting = get_translation(DEFAULT_GREETING_FIRST + SEP + DEFAULT_GREETING_SECOND , lang)
+        greeting = translator.get_translation(DEFAULT_GREETING_FIRST + SEP + DEFAULT_GREETING_SECOND , lang)
         if greeting.strip():
             #save retrieved translation in the local file
             save_greeting_background(lang, greeting)
@@ -74,7 +79,7 @@ def save_greeting(language_code, greeting_text):
             file_greeting.write("\n")
             file_greeting.write(data_to_save)
 
-        print(f"Data appended to {FILE_NAME_GREETINGS}")
+        print(f"data appended to {FILE_NAME_GREETINGS}")
     except OSError as e:
         print(f"Error: {e}")
 
@@ -91,4 +96,4 @@ def get_end_greeting():
 
 
 def print_greeting(text):
-    print(text + get_end_greeting())
+    print(text + SEP + get_end_greeting())

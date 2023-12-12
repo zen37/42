@@ -14,10 +14,7 @@ from constants import (
     WORLD_EMOJI,
     GREETING_PUNCTUATION
 )
-from translator.translator_factory import get_translator_instance
-
-config = get_config()
-translator = get_translator_instance(config)
+from translator.factory import get_translator_instance
 
 def read_greetings_file(file_name):
     """Read greetings from a file."""
@@ -35,6 +32,10 @@ def get_greeting(current_locale):
     """Find the matching greeting based on language code."""
     #thread_id = threading.current_thread().ident
     #print(f"Function get_greeting executed on thread with ID: {thread_id}")
+
+    config = get_config()
+    translator = get_translator_instance(config)
+
     language_code = current_locale[0]
 
     lines = read_greetings_file(FILE_NAME_GREETINGS)

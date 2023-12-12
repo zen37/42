@@ -1,33 +1,33 @@
 """
-import os
-provides functionality related to the operating system,
-including file and directory operations using the os module
-
-import pygame
-https://stackoverflow.com/questions/51464455/how-to-disable-welcome-message-when-importing-pygame
+ provides the speech services
 """
 
 import os
 import json
 import random
 import azure.cognitiveservices.speech as speechsdk
+
+#https://stackoverflow.com/questions/51464455/how-to-disable-welcome-message-when-importing-pygame
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 
+from helpers import get_config_service, get_key_speech
 from constants import DEFAULT_VOICE, DIRECTORY_AUDIO, ENCODING
 
 
-with open("config.json", "r", encoding = ENCODING) as file:
-    config = json.load(file)
-
-REGION = config["region"]
-KEY = config["key_speech"]
-
-#speech_config = speechsdk.SpeechConfig(subscription=os.environ.get('SPEECH_KEY'), region=os.environ.get('SPEECH_REGION'))
-speech_config = speechsdk.SpeechConfig(subscription=KEY, region=REGION)
-
 def get_available_voices():
     """gets the available voices list"""
+
+    config = get_config_service("azure")
+
+    REGION = config["region"]
+    KEY = get_key_speech()
+
+    print("KEY", KEY)
+
+#speech_config = speechsdk.SpeechConfig(subscription=os.environ.get('SPEECH_KEY'), region=os.environ.get('SPEECH_REGION'))
+    speech_config = speechsdk.SpeechConfig(subscription=KEY, region=REGION)
+
     speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config , audio_config=None)
 
     # request the list of available voices
@@ -56,11 +56,12 @@ def get_voice(language_code):
         return DEFAULT_VOICE
 
 
-def get_filepath(voice):
+def get_filepath(language_code, filename):
     """gets path to audio file"""
-
-    filename = voice
-    filepath = os.path.join(DIRECTORY_AUDIO, filename)
+    language_folder = os.path.join(DIRECTORY_AUDIO, language_code)
+    print("language_folder", language_folder)
+    os.makedirs(language_folder, exist_ok=True)
+    filepath = os.path.join(language_folder, filename)
 
     return filepath
 
@@ -82,15 +83,16 @@ def play(filepath):
 
 def get_audio_file(language_code):
     """gets local audio file based on the provided language"""
- # Check if the directory exists
+    #check if the directory exists
     if not os.path.exists(DIRECTORY_AUDIO):
         os.makedirs(DIRECTORY_AUDIO)
         return None  # just created the directory, obviously there is no file
     else:
         # Get all files that start with language_code
-        files = [f for f in os.listdir(DIRECTORY_AUDIO) if f.startswith(language_code)]
+        path = os.path.join(DIRECTORY_AUDIO, language_code)
+        files = [f for f in os.listdir(path) if f.startswith(language_code)]
 
-        print(f"audio files (voices) found locally: {len(files)}")
+        print(f"audio files found locally for '{language_code}': {len(files)}")
 
         for file in files:
             print(file)
@@ -112,12 +114,12 @@ def talk(language_locale, text):
     voice = get_audio_file(language_code)
 
     if voice:
-        filepath = get_filepath(voice)
+        filepath = get_filepath(language_code, voice)
         play(filepath)
     else:
         voice = get_voice(language_code)
 
-        filepath = get_filepath(voice)
+        filepath = get_filepath(language_code, voice)
 
         audio_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=True, filename = filepath)
 

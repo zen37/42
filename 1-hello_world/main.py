@@ -1,13 +1,15 @@
 import sys
 import locale
 
-from helpers import set_locale
+from helpers import set_locale, load_environment_variables
 from text import get_greeting, print_greeting
 from audio import talk
 
 
 def main():
     try:
+        load_environment_variables()
+
         current_locale = locale.getlocale()
         language_code = current_locale[0]
 

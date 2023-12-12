@@ -7,9 +7,9 @@ import uuid
 import json
 import requests
 
-from helpers import get_secrets
+from helpers import get_key_translation
 from constants import TIMEOUT_SECONDS
-from translator.translator_interface import TranslatorInterface
+from translator.interface import TranslatorInterface
 
 class AzureTranslator(TranslatorInterface):
     """
@@ -37,7 +37,7 @@ class AzureTranslator(TranslatorInterface):
         trace_id = f'{str(uuid.uuid4())}'
         headers = {
             #'Ocp-Apim-Subscription-Key': self.config["key_translator"],
-            'Ocp-Apim-Subscription-Key': get_secrets("azure")["key_translator"], #temporary
+            'Ocp-Apim-Subscription-Key': get_key_translation(), 
             'Ocp-Apim-Subscription-Region': self.config["region"],
             'Content-type': 'application/json',
             'X-ClientTraceId': trace_id

@@ -18,4 +18,3 @@ class TranslatorInterface(ABC):
         Returns:
         - str: The translated text.
         """
-        pass

@@ -14,9 +14,10 @@ def main():
         language_code = current_locale[0]
 
         greeting = get_greeting(current_locale)
-        print_greeting(greeting)
 
+        print_greeting(greeting)
         talk(language_code, greeting)
+
     except Exception as e:
         print(f"An error occurred: {e}")
 

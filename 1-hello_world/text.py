@@ -32,7 +32,6 @@ def get_greeting(current_locale):
     """Find the matching greeting based on language code."""
     #thread_id = threading.current_thread().ident
     #print(f"Function get_greeting executed on thread with ID: {thread_id}")
-
     config = get_config()
     translator = get_translator_instance(config)
 

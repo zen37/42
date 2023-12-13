@@ -2,10 +2,10 @@ import locale
 import os
 from dotenv import load_dotenv
 import json
-
 import inspect
 
 from constants import ENCODING, DIR_CONFIG, FILE_COMMON_CONFIG, FILE_AZURE_CONFIG
+
 
 def set_locale(language, encoding):
     """Set the locale."""

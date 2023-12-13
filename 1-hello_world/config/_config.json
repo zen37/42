@@ -1,3 +1,4 @@
 {
-    "translation_service": "azure"
+    "translation_service": "azure",
+    "speech_service": "azure"
 }

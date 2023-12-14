@@ -3,14 +3,12 @@
 import os
 import random
 import azure.cognitiveservices.speech as speechsdk
-from speech.interface import SpeechInterface
-
-# https://stackoverflow.com/questions/51464455/how-to-disable-welcome-message-when-importing-pygame
-os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
-import pygame
 
 from helpers import get_config_service, get_key_speech
 from constants import DEFAULT_VOICE, DIRECTORY_AUDIO
+from speech.services.common import get_audio_file, get_filepath, play
+from speech.interface import SpeechInterface
+
 
 class AzureSpeechService(SpeechInterface):
     def __init__(self, config):
@@ -39,46 +37,9 @@ class AzureSpeechService(SpeechInterface):
         else:
             return DEFAULT_VOICE
 
-    def get_filepath(self, language_code, filename):
-        language_folder = os.path.join(DIRECTORY_AUDIO, language_code)
-        os.makedirs(language_folder, exist_ok=True)
-        filepath = os.path.join(language_folder, filename)
-
-        return filepath
-
-    def play(self, filepath):
-        pygame.init()
-        pygame.mixer.music.load(filepath)
-        pygame.mixer.music.play()
-        pygame.time.wait(int(pygame.mixer.Sound(filepath).get_length() * 1000))
-        pygame.mixer.quit()
-        pygame.quit()
-
-    def get_audio_file(self, language_code):
-        if not os.path.exists(DIRECTORY_AUDIO):
-            os.makedirs(DIRECTORY_AUDIO)
-            return None
-        else:
-            path = os.path.join(DIRECTORY_AUDIO, language_code)
-            if not os.path.exists(path):
-                os.makedirs(path)
-                return None
-
-            files = [f for f in os.listdir(path) if f.startswith(language_code)]
-
-            print(f"audio files found locally for '{language_code}': {len(files)}")
-
-            for file in files:
-                print(file)
-
-            if files:
-                random_file = random.choice(files)
-                print("randomly chosen voice: ", random_file)
-                return random_file
-            else:
-                return None
 
     def get_speech_config(self, voice=None):
+
         config = get_config_service("azure")
         REGION = config["region"]
         KEY = get_key_speech()
@@ -89,6 +50,7 @@ class AzureSpeechService(SpeechInterface):
 
         return speech_config
 
+
     def get_speech_synthesizer(self, voice=None, audio_config=None):
         speech_config = self.get_speech_config(voice)
         if audio_config:
@@ -98,17 +60,20 @@ class AzureSpeechService(SpeechInterface):
 
         return speech_synthesizer
 
+
     def talk(self, language_locale, text):
         language_code = language_locale[:2]
-        voice = self.get_audio_file(language_code)
+        #voice = self.get_audio_file(language_code)
+        voice = get_audio_file(language_code)
 
         if voice:
-            filepath = self.get_filepath(language_code, voice)
-            self.play(filepath)
+            #filepath = self.get_filepath(language_code, voice)
+            filepath = get_filepath(language_code, voice)
+            play(filepath)
         else:
             voice = self.get_voice(language_code)
             print("voice: ", voice)
-            filepath = self.get_filepath(language_code, voice)
+            filepath = get_filepath(language_code, voice)
             print("filepath: ", filepath)
             audio_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=True, filename=filepath)
             speech_synthesizer = self.get_speech_synthesizer(voice, audio_config)
@@ -116,9 +81,9 @@ class AzureSpeechService(SpeechInterface):
 
             if speech_synthesis_result.reason == speechsdk.ResultReason.SynthesizingAudioCompleted:
                 print(f"speech synthesized for voice [{voice}] and text [{text}]")
-                filepath = self.get_filepath(language_code, voice)
+                filepath = get_filepath(language_code, voice)
                 if os.path.isfile(filepath):
-                    self.play(filepath)
+                    play(filepath)
             elif speech_synthesis_result.reason == speechsdk.ResultReason.Canceled:
                 cancellation_details = speech_synthesis_result.cancellation_details
                 print(f"Speech synthesis canceled: [{cancellation_details.reason}]")

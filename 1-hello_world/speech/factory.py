@@ -3,7 +3,7 @@
 from helpers import get_config_service
 
 
-def get_speech_service(config):
+def get_speech_instance(config):
 
     service = config.get("speech_service", "").lower()
     config_service = get_config_service(service)

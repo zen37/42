@@ -1,6 +1,6 @@
 import locale
 
-from helpers import set_locale
+from utils import set_locale
 from text import get_greeting, read_greetings_file, print_greeting
 from constants import FILE_NAME_GREETINGS, SEP, WORLD_EMOJI, ENCODING
 

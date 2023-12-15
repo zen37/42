@@ -1,6 +1,6 @@
 # factory.py
 
-from helpers import get_config_service
+from utils import get_config_service
 
 
 def get_speech_instance(config):

@@ -3,7 +3,7 @@ import locale
 import json
 import threading
 
-from helpers import get_config
+from utils import get_config
 from constants import (
     ENCODING,
     FILE_NAME_GREETINGS,

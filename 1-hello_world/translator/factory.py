@@ -1,4 +1,4 @@
-from helpers import get_config_service
+from utils import get_config_service
 
 def get_translator_instance(config):
 

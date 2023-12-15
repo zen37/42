@@ -29,15 +29,15 @@ class AzureTranslator(TranslatorInterface):
     def get_translation(self, text, language):
         """Translate the given text to the specified language."""
         params = {
-            'api-version': '3.0',
-            'from': 'en',
+            'api-version': self.config["api_version_translator"],
+            'from': self.config["translate_from"],
             'to': [language]
         }
 
         trace_id = f'{str(uuid.uuid4())}'
         headers = {
             #'Ocp-Apim-Subscription-Key': self.config["key_translator"],
-            'Ocp-Apim-Subscription-Key': get_key_translation(), 
+            'Ocp-Apim-Subscription-Key': get_key_translation(),
             'Ocp-Apim-Subscription-Region': self.config["region"],
             'Content-type': 'application/json',
             'X-ClientTraceId': trace_id
@@ -45,7 +45,7 @@ class AzureTranslator(TranslatorInterface):
 
         body = [{'text': text}]
 
-        url = self.config["endpoint"] + self.config["path"]
+        url = self.config["endpoint_translator"]
         timeout = TIMEOUT_SECONDS
 
         try:

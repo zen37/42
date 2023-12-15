@@ -4,15 +4,15 @@ import random
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 
-from constants import DIRECTORY_AUDIO
+from constants import DIR_AUDIO
 
 
 def get_audio_file(language_code):
-    if not os.path.exists(DIRECTORY_AUDIO):
-        os.makedirs(DIRECTORY_AUDIO)
+    if not os.path.exists(DIR_AUDIO):
+        os.makedirs(DIR_AUDIO)
         return None
     else:
-        path = os.path.join(DIRECTORY_AUDIO, language_code)
+        path = os.path.join(DIR_AUDIO, language_code)
         if not os.path.exists(path):
             os.makedirs(path)
             return None
@@ -33,7 +33,7 @@ def get_audio_file(language_code):
 
 
 def get_filepath(language_code, filename):
-    language_folder = os.path.join(DIRECTORY_AUDIO, language_code)
+    language_folder = os.path.join(DIR_AUDIO, language_code)
     os.makedirs(language_folder, exist_ok=True)
     filepath = os.path.join(language_folder, filename)
 

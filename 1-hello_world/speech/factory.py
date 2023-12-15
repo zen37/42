@@ -15,5 +15,5 @@ def get_speech_instance(config):
     #    from translator_openai import OpenAITranslator
     #    return OpenAITranslator(config)
     else:
-        raise ValueError("Invalid translation service specified in the config.")
+        raise ValueError("Invalid speech service specified in the config.")
 

@@ -5,7 +5,7 @@ import random
 import azure.cognitiveservices.speech as speechsdk
 
 from helpers import get_config_service, get_key_speech
-from constants import DEFAULT_VOICE, DIRECTORY_AUDIO
+from constants import DEFAULT_VOICE, DIR_AUDIO
 from speech.services.common import get_audio_file, get_filepath, play
 from speech.interface import SpeechInterface
 

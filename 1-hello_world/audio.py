@@ -1,4 +1,4 @@
-from helpers import get_config
+from utils import get_config
 from speech.factory import get_speech_instance
 
 

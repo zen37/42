@@ -3,7 +3,7 @@
 It writes 'Hello World' in the console, (translated into the locale), says it, and creates an image as per [prompt text](files/prompt_image.txt)
 
 
-For example if the locale is 'ja_JP' it will print 'こんにちは、世界', [pronounce] (files/audio/ja/ja-JP-MayuNeural.wav) it, and create an [image](files/images/JP/dalle3_20231214204519.png)
+For example if the locale is 'ja_JP' it will print 'こんにちは、世界', [pronounce](files/audio/ja/ja-JP-MayuNeural.wav) it, and create an [image](files/images/JP/dalle3_20231214204519.png)
 
 ## Table of Contents
 

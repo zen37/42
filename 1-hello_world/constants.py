@@ -1,7 +1,8 @@
 DIR_CONFIG = "config"
 FILE_COMMON_CONFIG = "_config.json"
 FILE_AZURE_CONFIG = "azure.json"
-FILE_NAME_GREETINGS = 'greetings.txt'
+FILE_NAME_GREETINGS = 'files/greetings.txt'
+FILE_PROMPT_IMAGE = 'files/prompt_image.txt'
 
 
 DEFAULT_GREETING_FIRST = 'Hello'
@@ -23,4 +24,9 @@ PREFIX_TRACE_ID =  'HelloWorld'
 TIMEOUT_SECONDS = 10 #for calling translator resource
 
 DEFAULT_VOICE = 'en-US-JennyMultilingualNeural.wav'
-DIRECTORY_AUDIO ='audio'
+DIR_AUDIO ='files/audio'
+
+
+DIR_IMAGES = 'files/images'
+FILE_IMAGE_EXT  = 'png'
+FORMAT_TIME = "%Y%m%d%H%M%S"

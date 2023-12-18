@@ -38,7 +38,10 @@ class AzureImageService(ImageInterface):
             style=image_style
         )
 
+        #print(result)
         return json.loads(result.model_dump_json())["data"][0]["url"]
+
+
 
     def _save_image(self, image_url, country_code):
         timestamp = datetime.now().strftime(FORMAT_TIME)

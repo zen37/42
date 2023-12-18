@@ -4,6 +4,7 @@ import logging
 from dotenv import load_dotenv
 import json
 import inspect
+import tiktoken
 
 from constants import ENCODING, DIR_CONFIG, FILE_COMMON_CONFIG, FILE_PROMPT_IMAGE
 
@@ -84,3 +85,9 @@ def configure_logging():
         level=config.get("logging_level", logging.INFO),
         format=config.get("logging_format", "%(asctime)s [%(levelname)s]: %(message)s"),
     )
+
+def tokens_count(model, text):
+    enc = tiktoken.encoding_for_model(model)
+    print(enc)
+    tokens = enc.encode(text)
+    print(tokens)

@@ -1,10 +1,11 @@
 import sys
 import locale
 
-from utils import configure_logging, load_environment_variables, set_locale, get_country_code, get_prompt_image
+from utils import configure_logging, load_environment_variables, set_locale, get_country_code, get_prompt_image, tokens_count
 from text import get_greeting, print_greeting
 from audio import talk
 from visual import create_image
+
 
 
 def init():

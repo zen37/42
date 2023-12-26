@@ -22,6 +22,8 @@ obj2 = EvenOddEmptyParentheses()
 print(isinstance(obj1, EvenOdd))  # True
 print(isinstance(obj2, EvenOddEmptyParentheses))  # True
 
+
+
 In practice, whether you include the parentheses or not is a matter of personal or team coding style preferences. Some developers prefer to include the parentheses to explicitly indicate that they are defining a class, while others omit them for brevity. Both styles are widely used, and you can choose the one that you find more readable or that aligns with the style guide you're following.
 
 ## Use of `self` in Class Methods

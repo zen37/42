@@ -4,6 +4,13 @@
 
 ### Class Declaration
 
+In Python, class names are typically written in CamelCase. This means that each word in the class name is capitalized, and there are no underscores between words. For example:
+
+```python
+class MyClass:
+    # class code goes here
+
+It's a convention in Python to use CamelCase for class names to make them easily distinguishable from variables and functions, which usually follow a lowercase_with_underscores naming convention. Following these conventions helps make your code more readable and adheres to the PEP 8 style guide, which is the style guide for Python code.
 In Python, the syntax `class EvenOdd:` and `class EvenOdd():` are equivalent. Both forms define an empty class named `EvenOdd`. The parentheses in `class EvenOdd():` are optional and can be omitted. They don't change the behavior of class creation.
 
 Here's an example demonstrating their equivalence:
@@ -21,8 +28,6 @@ obj2 = EvenOddEmptyParentheses()
 
 print(isinstance(obj1, EvenOdd))  # True
 print(isinstance(obj2, EvenOddEmptyParentheses))  # True
-
-
 
 In practice, whether you include the parentheses or not is a matter of personal or team coding style preferences. Some developers prefer to include the parentheses to explicitly indicate that they are defining a class, while others omit them for brevity. Both styles are widely used, and you can choose the one that you find more readable or that aligns with the style guide you're following.
 

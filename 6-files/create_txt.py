@@ -1,4 +1,4 @@
-def create(id, order):
+def create(template, id, order):
     # Open input.txt for reading and output.txt for writing
     with open("input.txt", "r") as input_file, open("output.txt", "w") as output_file:
         # Read lines from input.txt
@@ -8,8 +8,7 @@ def create(id, order):
         for record in records:
             # Remove newline character from the end of the record
             record = record.strip()
-            #line = f"((byte){id}, \"{record}\", (byte){order}),"
-            line = f"({id}, \"{record}\", {order}),"
+            line = template.format(id=id, record=record, order=order)
             # Write the processed record to output.txt
             output_file.write(line + "\n")
             print(line)
@@ -17,5 +16,11 @@ def create(id, order):
             id      += 1
             order   += 1
 
+def get_template():
+    with open("template.txt", "r") as f:
+        return f.readline().strip()
+
+
 if __name__ == "__main__":
-    create(1, 41)
+    t = get_template()
+    create(t, 1, 41)

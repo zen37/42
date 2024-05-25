@@ -1,7 +1,6 @@
 from typing import List
-
-TEXT_RESPONSE = "list contains duplicates: "
-MY_LIST = [1, 2, 7, 3]
+import timeit
+from contains_duplicate_const import MY_LIST, EXECUTION_COUNT
 
 class Solution:
     @staticmethod
@@ -15,7 +14,11 @@ class Solution:
 
         return False
 
+def check():
+    is_duplicate_in_list = Solution.contains_duplicate(MY_LIST)
+    #print(TEXT_RESPONSE, is_duplicate_in_list)
 
 if __name__ == "__main__":
-    is_duplicate_in_list = Solution.contains_duplicate(MY_LIST)
-    print(TEXT_RESPONSE, is_duplicate_in_list)
+    total_execution_time = timeit.timeit(check, number=EXECUTION_COUNT)
+    total_execution_time_ms = total_execution_time * 1_000
+    print(f"Total execution time: {total_execution_time_ms:.2f} milliseconds")

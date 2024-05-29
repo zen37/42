@@ -3,11 +3,7 @@ class Solution:
     @staticmethod
     def is_reverse(s:str, t:str) -> bool:
         reversed_string = ''.join(reversed(t))
-        print(reversed_string)
-        if s == ''.join(reversed(t)):
-            return True
-        else:
-            return False
+        return s == reversed_string
 
 if __name__ == "__main__":
     str1 = "anagram"

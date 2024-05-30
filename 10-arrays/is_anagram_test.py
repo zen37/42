@@ -8,7 +8,8 @@ def test_is_anagram():
         (4, 'a', 'aa', False),
         (5, 'aacc', 'ccac', False),
         (6, 'aa cc d', 'dc ca a', True),
-        (7, 'aa ccd', 'dc ca  a', False)
+        (7, 'aa ccd', 'dc ca  a', False),
+        (8, 'a', 'ab', False)
     ]
 
     for num, str1, str2, expected in test_cases:

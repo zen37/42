@@ -7,14 +7,16 @@ List[int] does not enforce the type of the elements in the list by itself.
 """
 class Solution:
     def contains_duplicate(self, nums: List[int]) -> bool:
-        nums_hashset = set()
+        nums_hashset = set() # O(1) operation
 
-        for n in nums:
-            if n in nums_hashset:
+        for n in nums: # the loop runs max n times, so O(n) operation
+            if n in nums_hashset: # O(1) operation, due to efficient nature of hashsets
                 return True
-            nums_hashset.add(n)
+            nums_hashset.add(n) # O(1) operation
         return False
-
+'''
+The time complexity O(n)⋅O(1)=O(n)
+'''
 
 def check():
     solution = Solution()

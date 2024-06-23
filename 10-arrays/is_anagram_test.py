@@ -1,4 +1,4 @@
-from is_anagram import Solution
+from is_anagram_use_counter import Solution
 
 def test_is_anagram():
     test_cases = [

@@ -1,5 +1,6 @@
 #from is_anagram_use_counter import Solution
-from is_anagram_use_loop import Solution
+#from is_anagram_use_loop import Solution
+from is_anagram_use_sort import Solution
 
 def test_is_anagram():
     test_cases = [

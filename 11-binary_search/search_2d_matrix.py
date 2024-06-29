@@ -1,4 +1,3 @@
-import time
 from typing import List
 
 class Solution:
@@ -6,14 +5,11 @@ class Solution:
 
         min_val = matrix[0][0]
         max_val = matrix[-1][-1]
+
         if target < min_val or target > max_val:
             return False
 
-        rows, cols = len(matrix), len(matrix[0])
-        top, bot = 0, rows - 1
         l_outer, r_outer = 0, len(matrix) - 1
-        print("r_outer: ", r_outer)
-        print("bot: ", bot)
 
         while l_outer <= r_outer:
             mid = (l_outer + r_outer) // 2
@@ -21,7 +17,7 @@ class Solution:
 
             if target < row[0]:
                 r_outer = mid - 1
-            elif target > row[len(row)-1]:
+            elif target > row[-1]:
                 l_outer = mid + 1
             else:
                 l, r = 0, len(row) - 1

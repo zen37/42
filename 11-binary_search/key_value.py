@@ -13,8 +13,6 @@ class TimeMap:
             self.store[key] = []
         self.store[key].append([value, timestamp])
 
-        
-
     def get(self, key: str, timestamp: int) -> str:
         result = ""
         
@@ -32,7 +30,6 @@ class TimeMap:
 
         return result
         
-
 
 # Your TimeMap object will be instantiated and called as such:
 # obj = TimeMap()

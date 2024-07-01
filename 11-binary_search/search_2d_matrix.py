@@ -62,7 +62,35 @@ class SolutionNeetcode:
         return False
 
 
+class SolutionRepeat():
+    def searchMatrix(self, matrix: List[List[int]], target:int) -> bool:
+
+        l_outer, r_outer = 0, len(matrix) - 1
+
+        while l_outer <= r_outer:
+            mid = (l_outer + r_outer) // 2
+            row = matrix[mid]
+            if target < row[0]:
+                r_outer = mid - 1
+            elif target > row[-1]:
+                l_outer = mid + 1
+            else:
+                l, r = 0, len(row) - 1
+                while l <= r:
+                    m = (l+r) // 2
+                    if target < row[m]:
+                        r = m - 1
+                    elif target > row[m]:
+                        l = m + 1
+                    else:
+                        return True
+                return False
+
+        return False
+
+
+
 if __name__ == "__main__":
-    s = Solution()
+    s = SolutionRepeat()
     print(s.searchMatrix([[1,3,5,7],[10,11,16,20],[23,30,34,60]], 3)) #True
     print(s.searchMatrix([[1,3,5,7],[10,11,16,20],[23,30,34,800]], 13))#False

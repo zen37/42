@@ -12,3 +12,11 @@ def test_is_palindrome_1():
     for input, expected in test_cases:
         result = s.is_palindrome_1(input)
         assert result == expected, "FAIL"
+
+
+def test_is_palindrome_2():
+    s = Solution()
+    
+    for input, expected in test_cases:
+        result = s.is_palindrome_1(input)
+        assert result == expected, "FAIL"

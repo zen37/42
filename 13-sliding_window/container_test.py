@@ -10,3 +10,10 @@ def test_max_area_1():
     for height, expected in test_cases:
         result = s.max_area_1(height)
         assert result == expected, "FAIL"
+
+def test_max_area_2():
+    s = Solution()
+    for height, expected in test_cases:
+        result = s.max_area_2(height)
+        assert result == expected, "FAIL"
+

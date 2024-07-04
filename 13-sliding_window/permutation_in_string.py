@@ -17,7 +17,7 @@ Memory 16.56 MB Beats 88.83%
 class Solution:
     def checkInclusion_1(self, s1: str, s2: str) -> bool:
 
-        if len(s1) > len(s2) : return True
+        if len(s1) > len(s2) : return False
 
         map_s1 = {}
 
@@ -74,6 +74,19 @@ class Solution:
                     matches -= 1
                 l += 1
             return matches == 26
+    
+    def checkInclusion_3(self, s1: str, s2: str) -> bool:
+        if len(s1) > len(s2) : return False
+
+        s1_sorted = sorted(s1)
+        
+        for i in range(len(s2)):
+            s2_sub = s2[i:i+len(s1)]
+            s2_sub_sorted = sorted(s2_sub)
+            if s1_sorted  == s2_sub_sorted:
+                return True
+
+        return False
 
 
 s = Solution()
@@ -86,3 +99,9 @@ print("2nd solution:")
 print(s.checkInclusion_2("ab", "eidbaooo"))
 print(s.checkInclusion_2("ab", "eidboaoo"))
 print(s.checkInclusion_2("ab", "abc"))
+print("\n")
+print("3rd solution:")
+print(s.checkInclusion_3("ab", "eidbaooo"))
+print(s.checkInclusion_3("ab", "eidboaoo"))
+print(s.checkInclusion_3("ab", "abc"))
+

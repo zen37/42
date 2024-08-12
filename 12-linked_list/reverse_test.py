@@ -1,4 +1,4 @@
-from reverse import ListNode, Solution  # Assuming your main script is named reverse.py
+from reverse import Solution  # Assuming your main script is named reverse.py
 
 # Helper function to create a linked list from a list of values
 def create_linked_list_1(values):

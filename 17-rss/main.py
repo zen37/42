@@ -100,15 +100,13 @@ def read_config(file_path):
     return retrieve_by, date, count
 
 
-
-
 def read_feed_urls(file_path):
-    # Open and read the file containing feed URLs (one per line)
+    # Open and read the file containing feed URLs (name, URL per line)
     with open(file_path, 'r') as file:
         urls = file.readlines()
 
-    # Return URLs, stripping any extra whitespace or newlines
-    return [url.strip() for url in urls if url.strip()]
+    # Return URLs, extracting the part after the comma and stripping extra whitespace
+    return [line.split(',', 1)[1].strip() for line in urls if ',' in line]
 
 def process_feeds(config_file, urls_file):
     # Read configuration and feed URLs

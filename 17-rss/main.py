@@ -3,10 +3,11 @@ import ssl
 import certifi
 import urllib.request
 import yaml
+import csv
 from datetime import datetime
 from email.utils import parsedate_tz, mktime_tz
 
-def get_feed(feed_url, retrieve_by, date=None, max_count=None):
+def get_feed(feed_url, author, retrieve_by, date=None, max_count=None, csv_writer=None):
     # Create an SSL context using certifi
     ssl_context = ssl.create_default_context(cafile=certifi.where())
 
@@ -53,6 +54,10 @@ def get_feed(feed_url, retrieve_by, date=None, max_count=None):
                     else:
                         print(f"Date comparison issue: date variable is not of type datetime.date")
 
+            # Write the entry to the CSV file
+            csv_writer.writerow([author, entry.link, entry.title, entry.summary, entry.published])
+
+            # Output the entry details to the console
             print(f"Title: {entry.title}")
             print(f"Link: {entry.link}")
             print(f"Published: {entry.published}")
@@ -69,8 +74,6 @@ def get_feed(feed_url, retrieve_by, date=None, max_count=None):
     except Exception as e:
         print(f"Failed to fetch the feed. Error: {e}")
 
-# Other functions (read_config, read_feed_urls, process_feeds) remain the same
-
 
 def read_config(file_path):
     # Load the configuration from the YAML file
@@ -81,6 +84,9 @@ def read_config(file_path):
     retrieve_by = config.get('retrieve_by', 'count')
     date_str = config.get('date', None)
     count = config.get('count', None)
+    file_feeds = config.get('file_feeds', 'feed_urls.txt')
+    file_output = config.get('file_output', 'feed_data.txt')
+    file_output_delimiter = config.get('file_output_delimiter', ',')
 
     # Initialize date variable
     date = None
@@ -97,7 +103,7 @@ def read_config(file_path):
         except ValueError:
             print(f"Count value error: {count}. It should be an integer.")
 
-    return retrieve_by, date, count
+    return retrieve_by, date, count, file_feeds, file_output, file_output_delimiter
 
 
 def read_feed_urls(file_path):
@@ -105,23 +111,31 @@ def read_feed_urls(file_path):
     with open(file_path, 'r') as file:
         urls = file.readlines()
 
-    # Return URLs, extracting the part after the comma and stripping extra whitespace
-    return [line.split(',', 1)[1].strip() for line in urls if ',' in line]
+    # Return a list of tuples (author, url)
+    return [(line.split(',', 1)[0].strip(), line.split(',', 1)[1].strip()) for line in urls if ',' in line]
 
-def process_feeds(config_file, urls_file):
-    # Read configuration and feed URLs
-    retrieve_by, date, count = read_config(config_file)
-    urls = read_feed_urls(urls_file)
 
-    # Loop through each URL
-    for url in urls:
-        print(f"Fetching feed from: {url}")
-        # Call the get_feed function with the correct parameters
-        get_feed(url, retrieve_by, date=date, max_count=count if retrieve_by == 'count' else None)
-        print("=" * 40)  # Separator between different feeds
+def process_feeds(config_file):
+    # Read configuration
+    retrieve_by, date, count, urls_file, output_csv, delimiter = read_config(config_file)
+
+    # Open the output file for writing with the specified delimiter
+    with open(output_csv, mode='w', newline='', encoding='utf-8') as csvfile:
+        csv_writer = csv.writer(csvfile, delimiter=delimiter)
+        # Write the CSV header
+        csv_writer.writerow(['Author', 'Link', 'Title', 'Summary', 'Published'])
+
+        # Loop through each URL and author
+        for author, url in read_feed_urls(urls_file):
+            print(f"Fetching feed from: {url} by {author}")
+            # Call the get_feed function with the correct parameters
+            get_feed(url, author, retrieve_by, date=date, max_count=count if retrieve_by == 'count' else None, csv_writer=csv_writer)
+            print("=" * 40)  # Separator between different feeds
+
 
 if __name__ == "__main__":
-    # Specify the paths to your configuration and feed URLs files
+    # Specify the path to your configuration file
     config_file = 'config.yaml'
-    urls_file = 'feed_urls.txt'
-    process_feeds(config_file, urls_file)
+
+    # Process feeds using the configuration
+    process_feeds(config_file)

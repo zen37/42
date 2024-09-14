@@ -1,3 +1,6 @@
 retrieve_by: count
 date: 2024-09-01
 count: 3
+file_feeds: feed_urls.txt
+file_output: feed_data.txt
+file_output_delimiter: "|"

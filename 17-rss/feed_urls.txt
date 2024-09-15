@@ -1,1 +1,2 @@
-Liam Twomey,https://www.nytimes.com/athletic/rss/author/liam-twomey/
+Dan Kilpatrick,https://www.standard.co.uk/sport/football/rss
+Liam Twomey, https://www.nytimes.com/athletic/rss/author/liam-twomey/

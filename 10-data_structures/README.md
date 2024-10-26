@@ -48,6 +48,29 @@ my_tuple[0] = 2  # Raises TypeError: 'tuple' object does not support item assign
 - **Syntax**: `my_dict = {'a': 1, 'b': 2}`
 - **Use Cases**: Associating keys with values, fast lookups by key.
 
+In Python, dictionaries (`dict`) use a hash table to store key-value pairs, allowing for efficient retrieval of values based on their keys. Here’s a breakdown of how hashing works within a Python dictionary:
+
+1. **Hashing the Key**:
+   When a key-value pair is added to a dictionary, Python computes a hash value for the key using Python's built-in `hash()` function. This hash is an integer that uniquely identifies the key within the dictionary. The hash value determines where the key-value pair will be stored in the dictionary’s internal structure.
+
+2. **Determining the Index**:
+   The dictionary uses the hash value to find an index (or "bucket") in its internal hash table where the key-value pair can be stored. The hash value is converted into an index by applying a modulo operation (e.g., `hash % table_size`). This maps the hash value to a specific slot in the underlying table.
+
+3. **Handling Collisions**:
+   If two keys have the same hash or map to the same index, this is called a "collision." Python handles collisions using "open addressing" with a method called "probing." When a collision occurs, the dictionary tries the next available slot in the hash table until it finds an empty one. This ensures each key remains unique within the dictionary.
+
+4. **Retrieving Values**:
+   When a value is accessed, the dictionary computes the hash of the given key, uses it to locate the index, and retrieves the value associated with that key. If there’s a collision, the dictionary checks subsequent slots as needed.
+
+5. **Rehashing for Growth**:
+   As more entries are added and the hash table fills up, Python will automatically resize and rehash the dictionary to maintain efficient access times.
+
+So in your dictionary example:
+```python
+d = {"key1": "value1", "key2": "value2"}
+```
+Python will compute the hash values for `"key1"` and `"key2"`, map them to specific locations in the internal table, and store `"value1"` and `"value2"` accordingly. When you access `d["key1"]`, Python recomputes the hash of `"key1"`, finds its position in the table, and returns `"value1"`.
+
 ### 2. **Additional Data Structures**
 
 #### a. **Strings**

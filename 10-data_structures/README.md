@@ -1,16 +1,42 @@
-Python provides several built-in data structures that allow you to store and manipulate data efficiently. Here’s an overview of the most commonly used data structures in Python:
-
-### 1. **Built-in Data Structures**
+# 1. **Built-in Data Structures**
   
-#### a. **Lists**
+## a. **Lists**
 - **Description**: Ordered, mutable collections of elements.
 - **Syntax**: `my_list = [1, "hello", 3.14, [2, 3]]`
 - **Use Cases**: Storing sequences of items, maintaining order, allowing duplicates.
 
-#### b. **Tuples**
+## b. **Tuples**
 - **Description**: Ordered, immutable collections of elements.
 - **Syntax**: `my_tuple = (1, "hello", 3.14, [2, 3])`
 - **Use Cases**: Storing fixed collections of items, ensuring immutability.
+
+
+Tuples are a good fit for createing test cases.
+
+### 1. **Immutability**
+   - Tuples are immutable, meaning they can’t be accidentally changed. This is useful in test cases because the inputs and expected outputs should remain constant throughout the test.
+
+### 2. **Memory Efficiency**
+   - Tuples use less memory compared to lists, so if you have a large number of test cases, using tuples is slightly more efficient.
+
+### 3. **Fixed Structure**
+   - Since each test case has exactly three elements (`nums`, `expected_k`, and `expected_nums`), a tuple clearly represents this fixed structure. It signals that the structure of each test case is not intended to vary, which aligns with the immutability property.
+
+### 4. **Convenient Unpacking**
+   - Tuples allow for easy unpacking in a loop, like so:
+
+     ```python
+    test_cases = [
+            # Format: (input array, expected unique count, expected modified array)
+            ([1, 1, 2], 2, [1, 2, "_"])
+    ]
+     for nums, expected_k, expected_nums in test_cases:
+         # Run assertions
+     ```
+
+This unpacking is especially convenient in tests, as it keeps the code concise and avoids the need for indexing or dictionary keys. 
+
+Of course, you could use lists or dictionaries if you wanted additional flexibility, but tuples are often a simple and effective choice for this structured, fixed data.
 
 
 #### Important Note
@@ -35,7 +61,6 @@ my_tuple[0] = 2  # Raises TypeError: 'tuple' object does not support item assign
 | **Mutability**   | Mutable        | Immutable      |
 | **Syntax**       | `[]`           | `()`           |
 | **Element types**| Mixed          | Mixed          |
-
 
 
 #### c. **Sets**
@@ -65,13 +90,12 @@ In Python, dictionaries (`dict`) use a hash table to store key-value pairs, allo
 5. **Rehashing for Growth**:
    As more entries are added and the hash table fills up, Python will automatically resize and rehash the dictionary to maintain efficient access times.
 
-So in your dictionary example:
 ```python
 d = {"key1": "value1", "key2": "value2"}
 ```
 Python will compute the hash values for `"key1"` and `"key2"`, map them to specific locations in the internal table, and store `"value1"` and `"value2"` accordingly. When you access `d["key1"]`, Python recomputes the hash of `"key1"`, finds its position in the table, and returns `"value1"`.
 
-### 2. **Additional Data Structures**
+# 2. **Additional Data Structures**
 
 #### a. **Strings**
 - **Description**: Immutable sequences of characters.

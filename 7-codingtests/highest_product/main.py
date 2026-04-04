@@ -88,13 +88,10 @@ def generate_test_data(
     return [randint(minimum, maximum) for _ in range(size)]
 
 
-def benchmark(
-    function, method_name: str, numbers: list[int], repeats: int
-) -> BenchmarkResult:
-    """Measure wall time and peak memory for one method."""
-    tracemalloc.start()
-    tracemalloc.reset_peak()
-
+def benchmark_time(
+    function, numbers: list[int], repeats: int
+) -> tuple[int, float, float]:
+    """Measure wall-clock time without tracemalloc overhead."""
     wall_start = perf_counter()
 
     for _ in range(repeats):
@@ -102,16 +99,42 @@ def benchmark(
 
     wall_end = perf_counter()
 
+    total_wall_ms = (wall_end - wall_start) * 1000
+    average_wall_ms = total_wall_ms / repeats
+    return result, total_wall_ms, average_wall_ms
+
+
+def benchmark_memory(function, numbers: list[int]) -> tuple[int, float]:
+    """Measure peak traced memory in a separate run."""
+    tracemalloc.start()
+    tracemalloc.reset_peak()
+
+    result = function(numbers)
+
     _, peak_bytes = tracemalloc.get_traced_memory()
     tracemalloc.stop()
 
-    total_wall_ms = (wall_end - wall_start) * 1000
-    average_wall_ms = total_wall_ms / repeats
     peak_memory_kb = peak_bytes / 1024
+    return result, peak_memory_kb
+
+
+def benchmark(
+    function, method_name: str, numbers: list[int], repeats: int
+) -> BenchmarkResult:
+    """Measure time and memory separately, then combine the results."""
+    time_result, total_wall_ms, average_wall_ms = benchmark_time(
+        function, numbers, repeats
+    )
+    memory_result, peak_memory_kb = benchmark_memory(function, numbers)
+
+    if time_result != memory_result:
+        raise ValueError(
+            f"Time and memory runs produced different results for {method_name}"
+        )
 
     return BenchmarkResult(
         method_name=method_name,
-        result=result,
+        result=time_result,
         total_wall_ms=total_wall_ms,
         average_wall_ms=average_wall_ms,
         peak_memory_kb=peak_memory_kb,

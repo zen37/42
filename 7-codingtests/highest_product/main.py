@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from itertools import islice
 from random import randint
 from time import perf_counter
 import tracemalloc
@@ -27,7 +28,7 @@ def highest_product_sort(numbers: list[int]) -> int:
     )
 
 
-def highest_product_slice(numbers: list[int]) -> int:
+def highest_product_islice(numbers: list[int]) -> int:
     """Return the highest product of any two numbers using one pass and slicing."""
     if len(numbers) < 2:
         raise ValueError("Need at least 2 numbers")
@@ -37,7 +38,8 @@ def highest_product_slice(numbers: list[int]) -> int:
     smallest = min(numbers[0], numbers[1])
     second_smallest = max(numbers[0], numbers[1])
 
-    for number in numbers[2:]:
+    # for number in numbers[2:]:
+    for number in islice(numbers, 2, None):
         if number > largest:
             second_largest = largest
             largest = number
@@ -181,7 +183,7 @@ if __name__ == "__main__":
 
     methods = [
         ("sorted()", highest_product_sort),
-        ("one-pass slice", highest_product_slice),
+        ("one-pass islice", highest_product_islice),
         ("one-pass index", highest_product_index),
     ]
 
